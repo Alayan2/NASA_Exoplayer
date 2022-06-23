@@ -6,16 +6,23 @@
     <ImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:paddingLeft="2dp"
+        android:paddingTop="2dp"
+        android:paddingRight="2dp"
+        android:paddingBottom="2dp" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
         android:gravity="bottom"
+        android:paddingLeft="4dp"
+        android:text="sfddfd"
         android:textColor="@android:color/white"
         android:textSize="25sp"
-        android:textStyle="bold"
-        android:text="sfddfd" />
+        android:textStyle="bold" />
 
 </FrameLayout>
