@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import java.io.IOException;
 
@@ -17,7 +19,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
     Collection movieList;
     RecyclerView recyclerView;
     RecyclerAdapter recyclerAdapter;
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        movieList = new ArrayList<>();
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -42,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }).build();
 
-
         ApiInterface apiService = ApiClient.getClient(okHttpClient).create(ApiInterface.class);
         Call<Collection> call = apiService.getMovies();
 
@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
                     movieList = response.body();
                     Log.d("TAG", "Response = " + movieList.getCollection().getItems().get(0).getData().get(0).getTitle());
                     recyclerAdapter.setMovieList(movieList);
+
                 }
             }
 
@@ -60,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
             public void onFailure(Call<Collection> call, Throwable t) {
                 Log.d("TAG","Response = "+t.toString());
             }
+
         });
+
     }
+
 }
