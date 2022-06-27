@@ -47,6 +47,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
         Glide.with(context).load(movieList.getCollection().getItems().get(position).getLinks().get(0).getHref()).apply(RequestOptions.centerCropTransform()).into(holder.image);
         System.out.println(movieList.getCollection().getItems().get(position).getLinks().get(0).getHref());
 
+        //Video Description
+        holder.videoDescription.setText("Date: " + movieList.getCollection().getItems().get(position).getData().get(0).getDateCreated().substring(0,10));
         //Video URL
         String videoURL = "https://images-assets.nasa.gov/video/" + movieList.getCollection().getItems().get(position).getData().get(0).getTitle() + "/" + movieList.getCollection().getItems().get(position).getData().get(0).getTitle() + "~orig.mp4";
 
@@ -78,13 +80,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
         TextView tvMovieName;
         ImageView image;
         String videoURL;
+        TextView videoDescription;
 
         public MyviewHolder(View itemView) {
             super(itemView);
             tvMovieName = (TextView)itemView.findViewById(R.id.title);
-
             image = (ImageView)itemView.findViewById(R.id.image);
-
+            videoDescription = (TextView)itemView.findViewById(R.id.description);
         }
     }
 
