@@ -47,10 +47,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
         Glide.with(context).load(movieList.getCollection().getItems().get(position).getLinks().get(0).getHref()).apply(RequestOptions.centerCropTransform()).into(holder.image);
         System.out.println(movieList.getCollection().getItems().get(position).getLinks().get(0).getHref());
 
-        //Video Description
-        holder.videoDescription.setText("Date: " + movieList.getCollection().getItems().get(position).getData().get(0).getDateCreated().substring(0,10));
+        //Video Creation Date
+        holder.dataCreated.setText("Date: " + movieList.getCollection().getItems().get(position).getData().get(0).getDateCreated().substring(0,10));
+
         //Video URL
         String videoURL = "https://images-assets.nasa.gov/video/" + movieList.getCollection().getItems().get(position).getData().get(0).getTitle() + "/" + movieList.getCollection().getItems().get(position).getData().get(0).getTitle() + "~orig.mp4";
+
+        //Video Title
+        String videoTitle = movieList.getCollection().getItems().get(position).getData().get(0).getTitle();
+
+        //Video Description
+        String videoDescription = movieList.getCollection().getItems().get(position).getData().get(0).getDescription();
+
+        //Video keywords
+        String keywords = movieList.getCollection().getItems().get(position).getData().get(0).getKeywords().get(0);
 
         System.out.println(videoURL);
         holder.tvMovieName.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +69,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
                 System.out.println("button clicked");
                 Intent intent = new Intent(context, PlayerActivity.class);
                 intent.putExtra("url", videoURL);
+                intent.putExtra("desc", videoDescription);
+                intent.putExtra("keywords", keywords);
+                intent.putExtra("title", videoTitle);
+
                 context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             }
         });
@@ -79,14 +93,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
     public class MyviewHolder extends RecyclerView.ViewHolder {
         TextView tvMovieName;
         ImageView image;
-        String videoURL;
-        TextView videoDescription;
+        TextView dataCreated;
 
         public MyviewHolder(View itemView) {
             super(itemView);
             tvMovieName = (TextView)itemView.findViewById(R.id.title);
             image = (ImageView)itemView.findViewById(R.id.image);
-            videoDescription = (TextView)itemView.findViewById(R.id.description);
+            dataCreated = (TextView)itemView.findViewById(R.id.videoDate);
         }
     }
 
