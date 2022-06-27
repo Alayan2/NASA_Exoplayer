@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ExoPlayerApp</string>
+    <string name="app_name">NASA Video Player</string>
     <string name="player_activity_name">Media player</string>
     <string name="media_url_mp3">https://storage.googleapis.com/exoplayer-test-media-0/Jazz_In_Paris.mp3</string>
     <!-- Big Buck Bunny video provided by the Blender Foundation.
