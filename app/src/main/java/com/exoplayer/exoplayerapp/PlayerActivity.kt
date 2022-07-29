@@ -86,7 +86,7 @@ class PlayerActivity : AppCompatActivity() {
         val apiService = ApiClient.getClient(okHttpClient).create(
             ApiInterface::class.java
         )
-        val call = apiService.movies
+        val call = apiService.getMovies("webb", "video")
 
         call.enqueue(object : Callback<Collection?> {
             override fun onResponse(call: Call<Collection?>, response: Response<Collection?>) {

@@ -2,6 +2,7 @@ package com.exoplayer.exoplayerapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,7 +52,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
         holder.dataCreated.setText("Date: " + movieList.getCollection().getItems().get(position).getData().get(0).getDateCreated().substring(0,10));
 
         //Video URL
-        String videoURL = "https://images-assets.nasa.gov/video/" + movieList.getCollection().getItems().get(position).getData().get(0).getTitle() + "/" + movieList.getCollection().getItems().get(position).getData().get(0).getTitle() + "~orig.mp4";
+        String videoURL = "https://images-assets.nasa.gov/video/" + movieList.getCollection().getItems().get(position).getData().get(0).getNasaId() + "/" + movieList.getCollection().getItems().get(position).getData().get(0).getNasaId() + "~orig.mp4";
 
         //Video Title
         String videoTitle = movieList.getCollection().getItems().get(position).getData().get(0).getTitle();
@@ -69,6 +70,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
                 System.out.println("button clicked");
                 Intent intent = new Intent(context, PlayerActivity.class);
                 intent.putExtra("url", videoURL);
+                Log.d("videourl", videoURL);
                 intent.putExtra("desc", videoDescription);
                 intent.putExtra("keywords", keywords);
                 intent.putExtra("title", videoTitle);
