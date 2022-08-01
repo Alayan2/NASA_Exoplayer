@@ -59,11 +59,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
 
         //Video Description
         String videoDescription = movieList.getCollection().getItems().get(position).getData().get(0).getDescription();
-
+        holder.desc.setText(movieList.getCollection().getItems().get(position).getData().get(0).getDescription());
         //Video keywords
-        String keywords = movieList.getCollection().getItems().get(position).getData().get(0).getKeywords().get(0);
+
+        String keywords = "James Webb";
+        if(movieList.getCollection().getItems().get(position).getData().get(0).getKeywords() != null) {
+            keywords = movieList.getCollection().getItems().get(position).getData().get(0).getKeywords().get(0);
+        }
 
         System.out.println(videoURL);
+        String finalKeywords = keywords;
         holder.tvMovieName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +77,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
                 intent.putExtra("url", videoURL);
                 Log.d("videourl", videoURL);
                 intent.putExtra("desc", videoDescription);
-                intent.putExtra("keywords", keywords);
+                intent.putExtra("keywords", finalKeywords);
                 intent.putExtra("title", videoTitle);
 
                 context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -96,12 +101,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
         TextView tvMovieName;
         ImageView image;
         TextView dataCreated;
+        TextView desc;
 
         public MyviewHolder(View itemView) {
             super(itemView);
             tvMovieName = (TextView)itemView.findViewById(R.id.title);
             image = (ImageView)itemView.findViewById(R.id.image);
             dataCreated = (TextView)itemView.findViewById(R.id.videoDate);
+            desc = (TextView) itemView.findViewById(R.id.description);
         }
     }
 
