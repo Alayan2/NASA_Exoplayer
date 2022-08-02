@@ -32,6 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:hint="Launch keyword search here"
                     android:gravity="fill"
                     android:inputType="text"
                     android:maxLines="1"

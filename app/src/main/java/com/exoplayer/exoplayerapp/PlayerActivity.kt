@@ -15,11 +15,11 @@
  */
 package com.exoplayer.exoplayerapp
 
-import android.R
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
@@ -63,14 +63,24 @@ class PlayerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(viewBinding.root)
         url = intent.getStringExtra("url").toString()
-        keyword = intent.getStringExtra("keyword").toString()
+        keyword = intent.getStringExtra("keywords").toString()
         desc = intent.getStringExtra("desc").toString()
         title = intent.getStringExtra("title").toString()
 
         viewBinding.exoDescription.setText(desc)
+
+        if (viewBinding.exoDescription.text.length > 300) {
+
+            viewBinding.seeMore.visibility = View.VISIBLE;
+
+            val seeMore = viewBinding.seeMore as TextView
+            seeMore.setOnClickListener {
+                viewBinding.exoDescription.maxLines = 30;
+            }
+        }
+
         viewBinding.exoTitle.setText(title)
 
-//        recyclerView = viewBinding.recyclerview as RecyclerView
         val layoutManager = LinearLayoutManager(this)
         viewBinding.recyclerview.setLayoutManager(layoutManager)
         recyclerAdapter = RecyclerAdapter(applicationContext, movieList)
@@ -86,7 +96,9 @@ class PlayerActivity : AppCompatActivity() {
         val apiService = ApiClient.getClient(okHttpClient).create(
             ApiInterface::class.java
         )
-        val call = apiService.getMovies("webb", "video")
+
+        Log.d("Playerkeywords!!!!!!!!!", keyword)
+        val call = apiService.getMovies(keyword, "video")
 
         call.enqueue(object : Callback<Collection?> {
             override fun onResponse(call: Call<Collection?>, response: Response<Collection?>) {
@@ -99,6 +111,8 @@ class PlayerActivity : AppCompatActivity() {
                 }
             }
 
+
+
             override fun onFailure(call: Call<Collection?>, t: Throwable) {
                 Log.d("TAG", "Response = $t")
             }
@@ -110,14 +124,17 @@ class PlayerActivity : AppCompatActivity() {
                 .build()
                 .also { exoPlayer ->
                     viewBinding.videoView.player = exoPlayer
-                    val mediaItem = MediaItem.fromUri(url)//the content to play sourced from strings.xml
+                    val mediaItem =
+                        MediaItem.fromUri(url)//the content to play sourced from strings.xml
                     exoPlayer.setMediaItem(mediaItem)
-                    exoPlayer.playWhenReady = playWhenReady //playWhenReady tells the player whether to start playing as soon as all resources for playback have been acquired.
-                    exoPlayer.seekTo(currentItem, playbackPosition) //seekTo tells the player to seek to a certain position within a specific media item.
+                    exoPlayer.playWhenReady =
+                        playWhenReady //playWhenReady tells the player whether to start playing as soon as all resources for playback have been acquired.
+                    exoPlayer.seekTo(
+                        currentItem,
+                        playbackPosition
+                    ) //seekTo tells the player to seek to a certain position within a specific media item.
                     exoPlayer.prepare() //prepare tells the player to acquire all the resources required for playback
                 }
-
-
     }
 
     public override fun onStart() {

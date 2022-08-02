@@ -60,16 +60,33 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
         //Video Description
         String videoDescription = movieList.getCollection().getItems().get(position).getData().get(0).getDescription();
         holder.desc.setText(movieList.getCollection().getItems().get(position).getData().get(0).getDescription());
-        //Video keywords
 
+        //Video keywords
         String keywords = "James Webb";
         if(movieList.getCollection().getItems().get(position).getData().get(0).getKeywords() != null) {
             keywords = movieList.getCollection().getItems().get(position).getData().get(0).getKeywords().get(0);
         }
-
-        System.out.println(videoURL);
         String finalKeywords = keywords;
+        Log.d("keywords!!!!!!!!!", finalKeywords);
+
+        //onClickListeners for title
         holder.tvMovieName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("button clicked");
+                Intent intent = new Intent(context, PlayerActivity.class);
+                intent.putExtra("url", videoURL);
+                Log.d("videourl", videoURL);
+                intent.putExtra("desc", videoDescription);
+                intent.putExtra("keywords", finalKeywords);
+                intent.putExtra("title", videoTitle);
+
+                context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+        });
+
+        //onClickListeners for thumbnail image
+        holder.image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("button clicked");
@@ -92,10 +109,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
             return movieList.getCollection().getMetadata().getTotalHits();
         }
         return 0;
-
     }
-
-
 
     public class MyviewHolder extends RecyclerView.ViewHolder {
         TextView tvMovieName;
