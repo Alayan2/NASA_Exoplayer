@@ -4,6 +4,8 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+// CREATES THE RETROFIT INSTANCE
+
 public class ApiClient {
     public static String BASE_URL ="https://images-api.nasa.gov/";
     private static Retrofit retrofit;

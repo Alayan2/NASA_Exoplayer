@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity  {
         recyclerAdapter = new RecyclerAdapter(getApplicationContext(),movieList);
         recyclerView.setAdapter(recyclerAdapter);
 
+
         OkHttpClient okHttpClient = new OkHttpClient().newBuilder().addInterceptor(new Interceptor() {
             @Override public okhttp3.Response intercept(Interceptor.Chain chain) throws IOException {
                 Request originalRequest = chain.request();
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity  {
             }
         }).build();
 
+        //
         ApiInterface apiService = ApiClient.getClient(okHttpClient).create(ApiInterface.class);
         searchVideos(apiService, "apollo");
 
@@ -65,7 +68,14 @@ public class MainActivity extends AppCompatActivity  {
             public void onResponse(Call<Collection> call, Response<Collection> response) {
                 if (response.isSuccessful()) {
                     movieList = response.body();
-                    Log.d("TAG", "Response = " + movieList.getCollection().getItems().get(0).getData().get(0).getTitle());
+
+                    //if search results are empty, toast notification prompts
+                    // user to try another search
+                    if(movieList.getCollection().getItems().isEmpty()) {
+                        Toast.makeText(MainActivity.this, "No results for '" + s + ",' try another keyword search.", Toast.LENGTH_LONG).show();
+                    }
+
+                    //recyclerAdapter is set with contents of movieList collection
                     recyclerAdapter.setMovieList(movieList);
 
                 }
