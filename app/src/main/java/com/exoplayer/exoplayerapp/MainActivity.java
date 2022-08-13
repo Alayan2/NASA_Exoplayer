@@ -20,6 +20,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import androidx.core.splashscreen.SplashScreen;
+
 public class MainActivity extends AppCompatActivity  {
     Collection movieList;
     RecyclerView recyclerView;
@@ -27,7 +29,10 @@ public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
+//        androidx.core.splashscreen.SplashScreen.installSplashScreen(this);
+
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView)findViewById(R.id.recyclerview);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
