@@ -16,7 +16,9 @@
 package com.exoplayer.exoplayerapp
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -67,6 +69,22 @@ class PlayerActivity : AppCompatActivity() {
         desc = intent.getStringExtra("desc").toString()
         title = intent.getStringExtra("title").toString()
 
+        var open = false;
+
+        //setting the video player height programmitically by screen width
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+
+        var width = displayMetrics.widthPixels
+        var height = displayMetrics.heightPixels
+
+        val videoHeight = 148
+        val videoWidth = 264
+        val screenWidth = width
+        viewBinding.videoView.layoutParams.height =
+            (videoHeight.toFloat() / videoWidth.toFloat() * screenWidth.toFloat()).toInt()
+        viewBinding.videoView.setLayoutParams(viewBinding.videoView.layoutParams)
+
         viewBinding.exoDescription.setText(desc)
 
         if (viewBinding.exoDescription.text.length > 300) {
@@ -75,7 +93,15 @@ class PlayerActivity : AppCompatActivity() {
 
             val seeMore = viewBinding.seeMore as TextView
             seeMore.setOnClickListener {
-                viewBinding.exoDescription.maxLines = 30;
+               if(!open) {
+                   viewBinding.exoDescription.maxLines = 30;
+                   viewBinding.seeMore.setText("Collapse");
+                   seeMore.setOnClickListener {
+                       viewBinding.exoDescription.maxLines = 5;
+                       viewBinding.seeMore.setText("See More");
+                       open = false;
+                   }
+               }
             }
         }
 
@@ -124,6 +150,9 @@ class PlayerActivity : AppCompatActivity() {
                 .build()
                 .also { exoPlayer ->
                     viewBinding.videoView.player = exoPlayer
+                    viewBinding.videoView.setShutterBackgroundColor(Color.TRANSPARENT);
+                    viewBinding.videoView.setKeepContentOnPlayerReset(true);
+
                     val mediaItem =
                         MediaItem.fromUri(url)//the content to play sourced from strings.xml
                     exoPlayer.setMediaItem(mediaItem)

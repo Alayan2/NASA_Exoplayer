@@ -45,7 +45,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
         System.out.println(movieList.getCollection().getItems().get(position).getData().get(0).getTitle());
 
         //Video Thumbnail Image
-        Glide.with(context).load(movieList.getCollection().getItems().get(position).getLinks().get(0).getHref()).apply(RequestOptions.centerCropTransform()).into(holder.image);
+        Glide.with(context).load(movieList.getCollection().getItems().get(position).getLinks().get(0).getHref()).apply(RequestOptions.circleCropTransform()).into(holder.image);
         System.out.println(movieList.getCollection().getItems().get(position).getLinks().get(0).getHref());
 
         //Video Creation Date
@@ -70,7 +70,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.Myview
         Log.d("keywords!!!!!!!!!", finalKeywords);
 
         //onClickListeners for title
-        holder.tvMovieName.setOnClickListener(new View.OnClickListener() {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 System.out.println("button clicked");
